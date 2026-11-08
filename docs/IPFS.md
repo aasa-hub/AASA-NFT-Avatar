@@ -16,6 +16,25 @@ images    Qmb4xgW83VeuzTHztS8iHbzq4JyAb984R9CjqH2t4q4iqA
 metadata  QmcH9ZLRzUZF1aTQZDdWupt2WDKheTAfxmEbLJGnzSo4Ax
 ```
 
+## Lighthouse (tried 2026-11-08)
+
+Setup needs no email: GET `api.lighthouse.storage/api/auth/get_message?publicKey=<addr>`, sign that string with the owner wallet, POST `/api/auth/create_api_key` with `{publicKey, signedMessage, keyName}`. The response body is a bare string, not JSON. Free quota is 5 GiB.
+
+Packing and importing work:
+
+```
+npx ipfs-car pack collection --output collection.car     # collection/{img,meta}
+curl -X POST -H "Authorization: Bearer <key>" \
+     -H "Origin: https://files.lighthouse.storage" -H "Referer: https://files.lighthouse.storage/" \
+     -F "file=@collection.car" https://upload.lighthouse.storage/api/v0/dag/import
+```
+
+Uploads answer a plain `403` when those Origin/Referer headers are missing, even with a valid key.
+
+Retrieval is the problem. `gateway.lighthouse.storage` returns `402 Payment required` for our root, with and without the owner key, and independent gateways report `no providers found for the CID` after a 55 second wait. The blocks are stored and counted against quota but never advertised, so nothing outside can read them. Only one metadata file ever returned 200, which reads as gateway cache. That is why `baseURI` still points at the commit-pinned directory.
+
+The imported root is `bafybeid2igs5nkyp6knbt5uftrpukqfwk6t2dsdnnsacv7imhqxeaeyi24` (CIDv1, since ipfs-car does not emit CIDv0). It holds `img/` and `meta/`, and every metadata file points `image` at `ipfs://bafybeiblqplmvlmwvmprryntwys4yoly3igpqwtq6flok7fadpscmur6vy/<id>.gif`. The DAG is correct and final, so buying a plan that actually serves content needs no re-upload, only the baseURI switch.
+
 ## What is blocked
 
 **Both free tiers tested cap at 500 pins.** Pinata rejects the folder upload with "The number of files being added would exceed your account's pin limit". Filebase, reached through its S3 keys, failed at object 494 of 2,000 with "Free accounts are limited to 500 IPFS pins" — after pinning 493 GIFs, which do resolve: `https://ipfs.filebase.io/ipfs/QmaVEsvqEytq1WgprkhNiQ5ephnBxov4giEqRsPJo2m2jY` returns the real 11,839-byte four-frame GIF. A 1,000-token collection cannot fit a 500-object budget at one object per token, so the metadata half never uploaded.
