@@ -1,0 +1,36 @@
+{
+ "deployer": "0xB3C437558A30Dd92eD55a6A18DFd6c6540EFf4cB",
+ "chainId": 8453,
+ "ts": "2026-10-29T02:45:16.151Z",
+ "PoolTimelock": {
+  "address": "0x4B89C6a405340f09aAf54319f4597dD7a6151569",
+  "tx": "0xa9cb1c38595d475c7c3c5452ce0c1fa7055587eff7552e0b36a03c672f8d4351",
+  "gasUsed": "722285"
+ },
+ "AuthorizedAvatars": {
+  "address": "0xe7b7eb917f395ba4aab89bF9AeFB0529474e3f92",
+  "tx": "0xbe4ec668cb0567d5a561077ca1efad304ce23d45b1bc516aaa8349eb20d242c9",
+  "gasUsed": "2772293"
+ },
+ "AvatarRedeemer": {
+  "address": "0x9345cb5Ed3bd1A1C1E475D6C1A3C25875F8385a2",
+  "tx": "0x19322f1ee5a9d70f2043c4237dc595ce3c21615ae1fb794c7c4ac6d41cea2293",
+  "gasUsed": "1050435"
+ },
+ "verify": {
+  "nft_name": "Authorized Avatars",
+  "nft_maxSupply": "1000",
+  "nft_treasury": "0x1cEcDFbb8507800e34e07dD4723AbdF8ea07c747",
+  "nft_royaltyBps": "250",
+  "nft_advanceBps": "8000",
+  "phase0_price": "500000000000000",
+  "phase4_price": "16800000000000000",
+  "phase0_redeem": "115000000000000000000000",
+  "phase4_redeem": "3866000000000000000000000",
+  "redeemer_nft": "0xe7b7eb917f395ba4aab89bF9AeFB0529474e3f92",
+  "redeemer_aasa": "0xe4deD569fFf9bFD80b131b6aC0D6D0874dA5ABa3",
+  "timelock_delay": "172800",
+  "timelock_admin": "0xB3C437558A30Dd92eD55a6A18DFd6c6540EFf4cB"
+ },
+ "spentETH": "0.000027360288759405"
+}

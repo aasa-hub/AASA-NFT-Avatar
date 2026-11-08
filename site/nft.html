@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Avatar — Authorized Avatars</title>
+<link rel="icon" href="/meta/img/1.gif">
+<style>
+:root{--bg:#07090a;--panel:#0d110f;--panel2:#111714;--line:#1d2a22;--txt:#e8f0ea;--dim:#7f9287;--mint:#7cff4d;--gold:#e3c067;--mono:ui-monospace,"SF Mono",Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:var(--mono);font-size:13px;line-height:1.65}
+a{color:var(--mint);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1050px;margin:0 auto;padding:0 22px}
+header{border-bottom:1px solid var(--line);background:rgba(7,9,10,.95);position:sticky;top:0;z-index:9}
+.hd{display:flex;align-items:center;gap:16px;padding:13px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:.14em;font-size:12px;text-transform:uppercase}
+.brand img{width:28px;height:28px;border-radius:6px;image-rendering:pixelated;border:1px solid var(--line)}
+nav{display:flex;gap:16px;margin-left:auto;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+nav a{color:var(--dim)}
+.detail{display:grid;grid-template-columns:400px 1fr;gap:36px;padding:38px 0 20px;align-items:start}
+.art{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.art img{width:100%;display:block;image-rendering:pixelated}
+.artcap{padding:12px 14px;display:flex;gap:10px;align-items:center;font-size:11px;color:var(--dim);border-top:1px solid var(--line)}
+h1{font-size:28px;margin:0 0 4px;letter-spacing:-.01em}
+.tierline{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mint);margin-bottom:16px}
+.statusbox{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 20px}
+.pill{font-size:10.5px;padding:5px 11px;border-radius:99px;border:1px solid var(--line);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.pill.m{background:var(--mint);color:#04120a;border-color:var(--mint);font-weight:700}
+.pill.u{border-style:dashed}
+.pill.r{color:var(--gold);border-color:#3a3320}
+table{width:100%;border-collapse:collapse;font-size:12px;margin:0 0 20px}
+td,th{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
+th{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-weight:400}
+td:first-child{color:var(--dim);width:42%}
+.btn{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:11px 18px;border-radius:9px;border:1px solid var(--line);background:var(--panel2);color:var(--txt);cursor:pointer}
+.btn:hover{border-color:var(--mint)}
+.btn.p{background:var(--mint);color:#04120a;border-color:var(--mint);font-weight:700}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.msg{font-size:11.5px;color:var(--dim);margin-top:12px;min-height:16px}
+.navbtns{display:flex;gap:10px;justify-content:space-between;padding:10px 0 60px}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--dim);font-size:11px;display:flex;gap:14px;flex-wrap:wrap}
+@media(max-width:860px){.detail{grid-template-columns:1fr}.art{max-width:340px}nav{display:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap hd">
+  <a class="brand" href="/"><img src="/meta/img/1.gif" alt="">Authorized Avatars</a>
+  <nav><a href="/#mint">Mint</a><a href="/collection">Collection</a><a href="/#token">Token</a><a href="/#roadmap">Roadmap</a></nav>
+</div></header>
+<div class="wrap">
+  <div class="detail">
+    <div>
+      <div class="art">
+        <img id="img" alt="avatar" src="/meta/img/1.gif">
+        <div class="artcap"><span id="tiercap">Tier 1 · Static</span><span style="margin-left:auto">animated GIF</span></div>
+      </div>
+    </div>
+    <div>
+      <h1 id="name">Authorized Avatar</h1>
+      <div class="tierline" id="tierline">—</div>
+      <div class="statusbox" id="pills"><span class="pill u">loading…</span></div>
+      <table id="chain"><tr><td>Minted</td><td id="c-minted">—</td></tr><tr><td>Owner</td><td id="c-owner">—</td></tr><tr><td>Redeem once for</td><td id="c-redeem">—</td></tr><tr><td>Redemption</td><td id="c-red">—</td></tr></table>
+      <div class="actions">
+        <button class="btn p" id="redeem" disabled>Redeem $AASA</button>
+        <a class="btn" href="/#mint" id="mintlink">Mint this tier</a>
+        <a class="btn" id="scan" href="#" target="_blank" rel="noopener">Basescan</a>
+      </div>
+      <p class="msg" id="msg"></p>
+      <table id="traits" style="margin-top:22px"><tr><th>Attribute</th><th>Value</th></tr></table>
+    </div>
+  </div>
+  <div class="navbtns">
+    <a class="btn" id="prev" href="#">← Previous</a>
+    <a class="btn" id="next" href="#">Next →</a>
+  </div>
+</div>
+<footer><div class="wrap" style="display:flex;gap:14px;flex-wrap:wrap;width:100%">
+  <a href="/">Dashboard</a><a href="/collection">Collection</a>
+  <a href="https://x.com/aasa_avatar" target="_blank" rel="noopener">X</a>
+  <a href="https://bankr.bot/launches/0xe4ded569fff9bfd80b131b6ac0d6d0874da5aba3" target="_blank" rel="noopener">$AASA</a>
+  <a href="https://bankr.bot/launches/0xe4ded569fff9bfd80b131b6ac0d6d0874da5aba3" target="_blank" rel="noopener">Buy $AASA</a>
+  <span style="margin-left:auto">Base mainnet</span>
+</div></footer>
+<script>
+const RPC=["https://mainnet.base.org","https://base-rpc.publicnode.com","https://base.drpc.org"];
+const NFT="0x96b1394Bd272C36a2078D1cbb1Fc89F8F68b1Be2",RED="0x0De77EE57C7e53cc8DA90381faa65Bab710201e8";
+const SEL={nextId:"0x61b8ce8c",ownerOf:"0x6352211e",phaseOf:"0x9a243ebf",phaseRedeem:"0x0866c3f2",redeemed:"0x7ed0f1c1",claimable:"0xd1d58b25",phaseOpen:"0xcddefd2b",phasePrice:"0x50faec2e",redeem:"0xdb006a75"};
+const TIER=["Static","Ember","Aurora","Nebula","Singularity"];
+let rpcIdx=0,acct=null,id=1,phase=0,minted=false,redeemed=false,claimable=0n;
+const pad=a=>a.replace(/^0x/,"").padStart(64,"0");
+const hexN=n=>"0x"+(typeof n==="bigint"?n:BigInt(n)).toString(16);
+async function rpc(method,params){
+  for(let i=0;i<RPC.length;i++){
+    try{const r=await fetch(RPC[(rpcIdx+i)%RPC.length],{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method,params})});const j=await r.json();if(j.error)throw 0;return j.result;}catch(e){}
+  }throw new Error("rpc");
+}
+const call=(to,data)=>rpc("eth_call",[{to,data},"latest"]);
+const u=h=>BigInt(h&&h!=="0x"?h:"0x0");
+function fmt(v,d=18){const s=v.toString().padStart(d+1,"0"),i=s.slice(0,-d),f=s.slice(-d).replace(/0+$/,"");return f?i+"."+f.slice(0,3):i;}
+const short=a=>a.slice(0,6)+"…"+a.slice(-4);
+
+async function connect(){
+  if(!window.ethereum){document.getElementById("msg").textContent="Install a wallet to redeem.";return null;}
+  try{
+    const a=await window.ethereum.request({method:"eth_requestAccounts"});acct=a[0];
+    const c=await window.ethereum.request({method:"eth_chainId"});
+    if(c!=="0x2105"){try{await window.ethereum.request({method:"wallet_switchEthereumChain",params:[{chainId:"0x2105"}]});}catch(e){await window.ethereum.request({method:"wallet_addEthereumChain",params:[{chainId:"0x2105",chainName:"Base",nativeCurrency:{name:"Ether",symbol:"ETH",decimals:18},rpcUrls:["https://mainnet.base.org"],blockExplorerUrls:["https://basescan.org"]}]});}}
+    return acct;
+  }catch(e){return null;}
+}
+
+async function load(){
+  id=Math.max(1,Math.min(1000,parseInt(new URLSearchParams(location.search).get("id")||"1",10)));
+  document.getElementById("img").src="/meta/img/"+id+".gif";
+  document.getElementById("img").alt="Authorized Avatar #"+id;
+  document.getElementById("name").textContent="Authorized Avatar #"+id;
+  document.getElementById("prev").href="/nft?id="+Math.max(1,id-1);
+  document.getElementById("next").href="/nft?id="+Math.min(1000,id+1);
+  document.getElementById("scan").href="https://basescan.org/address/"+NFT;
+  document.title="Authorized Avatar #"+id+" — AASA";
+  phase=Math.min(4,Math.floor((id-1)/200));
+  document.getElementById("tierline").textContent=`Tier ${phase+1} · ${TIER[phase]}`;
+  document.getElementById("tiercap").textContent=`Tier ${phase+1} · ${TIER[phase]}`;
+  document.getElementById("mintlink").href="/#mint";
+
+  let meta=null;
+  try{meta=await (await fetch("/meta/"+id)).json();}catch(e){}
+  const tr=document.getElementById("traits");
+  if(meta&&meta.attributes){
+    meta.attributes.forEach(a=>{
+      const r=document.createElement("tr");
+      r.innerHTML=`<td>${a.trait_type}</td><td>${a.value}</td>`;
+      tr.appendChild(r);
+    });
+    if(meta.name)document.title=meta.name+" — AASA";
+  }
+
+  try{
+    const [n,own,red,amt,price,open]=await Promise.all([
+      call(NFT,SEL.nextId),
+      call(NFT,SEL.ownerOf+pad(hexN(id))).catch(()=>null),
+      call(RED,SEL.redeemed+pad(hexN(id))),
+      call(RED,SEL.claimable+pad(hexN(id))),
+      call(NFT,SEL.phasePrice+pad(hexN(phase))),
+      call(NFT,SEL.phaseOpen+pad(hexN(phase)))
+    ]);
+    const next=u(n);
+    minted=BigInt(id)<next;
+    redeemed=u(red)===1n;
+    claimable=u(amt);
+    const priceEth=Number(u(price))/1e18;
+    const pills=document.getElementById("pills");
+    pills.innerHTML=`<span class="pill ${minted?"m":"u"}">${minted?"minted":"not minted"}</span>
+      <span class="pill">tier ${phase+1} ${u(open)===1n?"open":"locked"}</span>
+      ${minted?`<span class="pill ${redeemed?"r":""}">${redeemed?"redeemed":"redeemable"}</span>`:""}`;
+    document.getElementById("c-minted").textContent=minted?"yes · token #"+id+" exists on-chain":"no — this token is still available";
+    document.getElementById("c-owner").innerHTML=minted&&own?`<a href="https://basescan.org/address/${own}" target="_blank" rel="noopener">${short(own)}</a>`:"—";
+    document.getElementById("c-redeem").textContent=fmt(claimable)+" AASA";
+    document.getElementById("c-red").textContent=minted?(redeemed?"already claimed (one-time)":"not claimed yet"):"available after mint";
+    const btn=document.getElementById("redeem");
+    if(minted&&!redeemed&&claimable>0n){btn.disabled=false;btn.textContent="Redeem "+fmt(claimable)+" AASA";}
+    else if(!minted){btn.textContent="Not minted yet";}
+    else if(redeemed){btn.textContent="Already redeemed";}
+    else {btn.textContent="Pool empty for this tier";}
+    document.getElementById("msg").textContent=minted?"":"This token has not been minted. Minting is sequential — the next mint creates the next id.";
+  }catch(e){
+    document.getElementById("pills").innerHTML='<span class="pill u">rpc unavailable</span>';
+  }
+}
+
+document.getElementById("redeem").onclick=async()=>{
+  const btn=document.getElementById("redeem"),msg=document.getElementById("msg");
+  if(!acct){const a=await connect();if(!a)return;}
+  try{
+    btn.disabled=true;btn.textContent="…";
+    const tx=await window.ethereum.request({method:"eth_sendTransaction",params:[{from:acct,to:RED,data:SEL.redeem+pad(hexN(id))}]});
+    msg.innerHTML=`Redeem sent · <a href="https://basescan.org/tx/${tx}" target="_blank" rel="noopener">${tx.slice(0,14)}…</a>`;
+    setTimeout(load,7000);
+  }catch(e){msg.textContent="Redeem cancelled or failed: "+(e.message||"").slice(0,90);btn.disabled=false;}
+};
+load();
+</script>
+</body>
+</html>

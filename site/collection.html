@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Collection — Authorized Avatars</title>
+<link rel="icon" href="/meta/img/1.gif">
+<style>
+:root{--bg:#07090a;--panel:#0d110f;--panel2:#111714;--line:#1d2a22;--txt:#e8f0ea;--dim:#7f9287;--mint:#7cff4d;--mono:ui-monospace,"SF Mono",Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:var(--mono);font-size:13px;line-height:1.6}
+a{color:var(--mint);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+header{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(7,9,10,.95);backdrop-filter:blur(8px);z-index:9}
+.hd{display:flex;align-items:center;gap:18px;padding:14px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:.14em;font-size:12px;text-transform:uppercase}
+.brand img{width:30px;height:30px;border-radius:6px;image-rendering:pixelated;border:1px solid var(--line)}
+nav{display:flex;gap:18px;margin-left:auto;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+nav a{color:var(--dim)}nav a.on{color:var(--mint)}
+h1{font-size:26px;margin:34px 0 6px;letter-spacing:-.01em}
+.sub{color:var(--dim);margin:0 0 18px;font-size:12px}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:0 0 20px;padding:12px;background:var(--panel);border:1px solid var(--line);border-radius:10px}
+.controls input,.controls select{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:7px;padding:8px 10px;font-family:var(--mono);font-size:11.5px}
+.controls input{width:130px}
+.chip{font-size:11px;padding:7px 12px;border:1px solid var(--line);border-radius:99px;background:var(--panel2);color:var(--dim);cursor:pointer;letter-spacing:.06em}
+.chip.on{background:var(--mint);color:#04120a;border-color:var(--mint);font-weight:700}
+.count{margin-left:auto;font-size:11px;color:var(--dim)}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:14px;padding-bottom:60px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:11px;overflow:hidden;transition:transform .12s,border-color .12s}
+.card:hover{transform:translateY(-2px);border-color:var(--mint)}
+.card img{width:100%;display:block;image-rendering:pixelated;background:#0b0e0a}
+.cinfo{padding:9px 10px;display:flex;align-items:center;gap:8px}
+.cid{font-weight:700;font-size:12px}
+.ct{font-size:9.5px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
+.st{margin-left:auto;font-size:8.5px;padding:2px 6px;border-radius:99px;border:1px solid var(--line);letter-spacing:.08em;text-transform:uppercase}
+.st.m{color:#04120a;background:var(--mint);border-color:var(--mint);font-weight:700}
+.st.u{color:var(--dim)}
+.more{display:block;width:100%;margin:0 auto 50px;padding:12px;background:var(--panel2);border:1px solid var(--line);border-radius:9px;color:var(--txt);font-family:var(--mono);font-size:11.5px;cursor:pointer;letter-spacing:.08em}
+.more:hover{border-color:var(--mint)}
+footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--dim);font-size:11px;display:flex;gap:14px;flex-wrap:wrap}
+@media(max-width:640px){nav{display:none}#grid{grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:10px}}
+</style>
+</head>
+<body>
+<header><div class="wrap hd">
+  <a class="brand" href="/"><img src="/meta/img/1.gif" alt="">Authorized Avatars</a>
+  <nav><a href="/#mint">Mint</a><a href="/collection" class="on">Collection</a><a href="/#token">Token</a><a href="/#roadmap">Roadmap</a></nav>
+</div></header>
+<div class="wrap">
+  <h1>Collection</h1>
+  <p class="sub" id="sub">1,000 avatars · click any card for full traits and on-chain status</p>
+  <div class="controls">
+    <input id="q" placeholder="Search # / trait…" autocomplete="off">
+    <select id="tier"><option value="">All tiers</option><option value="1">Tier 1 · Static</option><option value="2">Tier 2 · Ember</option><option value="3">Tier 3 · Aurora</option><option value="4">Tier 4 · Nebula</option><option value="5">Tier 5 · Singularity</option></select>
+    <button class="chip on" data-f="all">All</button>
+    <button class="chip" data-f="minted">Minted</button>
+    <button class="chip" data-f="unminted">Unminted</button>
+    <span class="count" id="count">loading…</span>
+  </div>
+  <div id="grid"></div>
+  <button class="more" id="more">Load more</button>
+</div>
+<footer><div class="wrap" style="display:flex;gap:14px;flex-wrap:wrap;width:100%">
+  <a href="/">Dashboard</a><a href="https://x.com/aasa_avatar" target="_blank" rel="noopener">X</a>
+  <a href="https://bankr.bot/launches/0xe4ded569fff9bfd80b131b6ac0d6d0874da5aba3" target="_blank" rel="noopener">$AASA</a>
+  <a href="https://bankr.bot/launches/0xe4ded569fff9bfd80b131b6ac0d6d0874da5aba3" target="_blank" rel="noopener">Buy $AASA</a>
+  <span style="margin-left:auto">Base mainnet · 1,000 supply</span>
+</div></footer>
+<script>
+const RPC=["https://mainnet.base.org","https://base-rpc.publicnode.com","https://base.drpc.org"];
+const NFT="0x96b1394Bd272C36a2078D1cbb1Fc89F8F68b1Be2";
+const SEL={nextId:"0x61b8ce8c",totalMinted:"0xa2309ff8"};
+const TIER=["Static","Ember","Aurora","Nebula","Singularity"];
+let rpcIdx=0,nextId=1n,mintedCount=0n,shown=0,filter="all",traits={},metaCache={};
+const PAGE=120,MAX=1000;
+const pad=a=>a.replace(/^0x/,"").padStart(64,"0");
+async function rpc(method,params){
+  for(let i=0;i<RPC.length;i++){
+    try{const r=await fetch(RPC[(rpcIdx+i)%RPC.length],{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method,params})});const j=await r.json();if(j.error)throw 0;return j.result;}catch(e){}
+  }throw new Error("rpc");
+}
+const call=(to,data)=>rpc("eth_call",[{to,data},"latest"]);
+const u=h=>BigInt(h&&h!=="0x"?h:"0x0");
+const tierOf=id=>Math.min(5,Math.ceil(id/200));
+
+async function loadMeta(id){
+  if(metaCache[id])return metaCache[id];
+  try{const r=await fetch("/meta/"+id);const j=await r.json();metaCache[id]=j;return j;}catch(e){return null;}
+}
+function card(id){
+  const t=tierOf(id),m=BigInt(id)<nextId;
+  const el=document.createElement("a");el.href="/nft?id="+id;el.className="card";
+  el.innerHTML=`<img loading="lazy" src="/meta/img/${id}.gif" alt="AASA PFP #${id}">
+    <div class="cinfo"><div class="cid">#${id} AASA PFP</div>
+    <span class="st ${m?"m":"u"}">${m?"minted":"open"}</span></div>`;
+  return el;
+}
+function matches(id){
+  if(filter==="minted"&&BigInt(id)>=nextId)return false;
+  if(filter==="unminted"&&BigInt(id)<nextId)return false;
+  const t=document.getElementById("tier").value;
+  if(t&&tierOf(id)!==parseInt(t,10))return false;
+  const q=document.getElementById("q").value.trim().toLowerCase();
+  if(q){
+    if(q.startsWith("#")){ if(String(id)!==q.slice(1))return false; }
+    else{
+      const mt=traits[id];
+      if(!mt)return false;
+      const hay=mt.attributes.map(a=>String(a.value).toLowerCase()).join(" ");
+      if(!hay.includes(q))return false;
+    }
+  }
+  return true;
+}
+async function render(reset){
+  const grid=document.getElementById("grid");
+  if(reset){grid.innerHTML="";shown=0;}
+  const frag=document.createDocumentFragment();
+  let added=0,scanned=0,id=shown+1;
+  while(added<PAGE&&id<=MAX){
+    if(matches(id)){
+      // fetch traits lazily for trait search only
+      if(document.getElementById("q").value.trim()&&!traits[id]){
+        const m=await loadMeta(id); if(m)traits[id]=m;
+        if(!matches(id)){id++;continue;}
+      }
+      frag.appendChild(card(id));added++;
+    }
+    id++;scanned++;
+    if(scanned>MAX)break;
+  }
+  shown=id-1;
+  grid.appendChild(frag);
+  document.getElementById("count").textContent=`showing ${grid.children.length} / 1000 · ${u(mintedCount).toString()} minted`;
+  document.getElementById("more").style.display=shown>=MAX?"none":"block";
+}
+document.getElementById("more").onclick=()=>render(false);
+document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{
+  document.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));
+  c.classList.add("on");filter=c.dataset.f;render(true);
+});
+document.getElementById("tier").onchange=()=>render(true);
+let tmr;
+document.getElementById("q").oninput=()=>{clearTimeout(tmr);tmr=setTimeout(()=>render(true),260);};
+(async()=>{
+  try{
+    const [n,m]=await Promise.all([call(NFT,SEL.nextId),call(NFT,SEL.totalMinted)]);
+    nextId=u(n);mintedCount=u(m);
+    document.getElementById("sub").textContent=`1,000 avatars · ${mintedCount} minted · next id #${nextId} · click any card for full traits and on-chain status`;
+    await render(true);
+  }catch(e){document.getElementById("count").textContent="RPC unavailable — retry shortly.";}
+})();
+setInterval(async()=>{try{const n=await call(NFT,SEL.nextId);if(u(n)!==nextId){nextId=u(n);await render(true);}}catch(e){}},45000);
+</script>
+</body>
+</html>

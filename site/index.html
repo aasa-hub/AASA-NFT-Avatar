@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Authorized Avatars — AASA on Base</title>
+<meta name="description" content="1,000 animated avatars on Base. Mint with ETH, redeem once for $AASA. Never burned — hold, sell, or stake.">
+<link rel="icon" href="/meta/img/1.gif">
+<style>
+:root{--bg:#07090a;--panel:#0d110f;--panel2:#111714;--line:#1d2a22;--txt:#e8f0ea;--dim:#7f9287;--mint:#7cff4d;--green:#163e12;--gold:#e3c067;--mono:ui-monospace,"SF Mono",Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:var(--mono);font-size:13px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--mint);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+header{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(7,9,10,.94);backdrop-filter:blur(8px);z-index:50}
+.hd{display:flex;align-items:center;gap:18px;padding:14px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:.14em;font-size:12px;text-transform:uppercase}
+.brand img{width:30px;height:30px;border-radius:6px;image-rendering:pixelated;border:1px solid var(--line)}
+nav{display:flex;gap:18px;margin-left:auto;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+nav a{color:var(--dim)}nav a:hover{color:var(--txt);text-decoration:none}
+nav a.on{color:var(--mint)}
+.socials{display:flex;gap:8px;margin-left:14px}
+.socials a{width:30px;height:30px;border:1px solid var(--line);border-radius:8px;display:grid;place-items:center;color:var(--dim)}
+.socials a:hover{color:var(--mint);border-color:var(--mint);text-decoration:none}
+.socials svg{width:14px;height:14px;fill:currentColor}
+.btn{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:10px 16px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);color:var(--txt);cursor:pointer}
+.btn:hover{border-color:var(--mint)}
+.btn.p{background:var(--mint);color:#04120a;border-color:var(--mint);font-weight:700}
+.btn.p:hover{filter:brightness(1.1)}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+.hero{padding:64px 0 40px;display:grid;grid-template-columns:1.15fr .85fr;gap:42px;align-items:center}
+.hero h1{font-size:40px;line-height:1.08;margin:0 0 14px;letter-spacing:-.02em;font-weight:700}
+.hero h1 span{color:var(--mint)}
+.lede{color:var(--dim);font-size:13.5px;max-width:46ch;margin:0 0 22px}
+.kicker{font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--mint);margin-bottom:14px}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.heroart{position:relative;display:grid;place-items:center}
+.heroart img{width:290px;height:290px;image-rendering:pixelated;border-radius:16px;border:1px solid var(--line);background:#0b0e0a}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:8px 0 46px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.stat b{display:block;font-size:22px;font-weight:700;letter-spacing:-.01em}
+.stat b small{font-size:11px;color:var(--dim);font-weight:400}
+.stat span{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+section{padding:34px 0;border-top:1px solid var(--line)}
+h2{font-size:19px;margin:0 0 6px;letter-spacing:-.01em}
+.sub{color:var(--dim);font-size:12px;margin:0 0 22px}
+.tiers{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.tier{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.tier.open{border-color:#2b4a1f}
+.tier.done{opacity:.62}
+.tart{width:100%;display:block;image-rendering:pixelated;background:#0b0e0a}
+.tbody{padding:14px;display:flex;flex-direction:column;gap:9px;flex:1}
+.tid{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.badge{font-size:9.5px;padding:2px 7px;border-radius:99px;border:1px solid var(--line);letter-spacing:.1em}
+.badge.live{color:#04120a;background:var(--mint);border-color:var(--mint);font-weight:700}
+.badge.full{color:var(--dim)}
+.price{font-size:19px;font-weight:700}
+.price small{font-size:10px;color:var(--dim);font-weight:400}
+.bar{height:5px;background:#151b17;border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--mint)}
+.cap{display:flex;justify-content:space-between;font-size:10.5px;color:var(--dim)}
+.rw{font-size:11px;color:var(--dim);border-top:1px solid var(--line);padding-top:9px}
+.rw b{color:var(--txt)}
+.qty{display:flex;gap:8px;margin-top:auto;padding-top:8px}
+.qty select{flex:0 0 58px;background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:7px;padding:8px;font-family:var(--mono);font-size:11px}
+.qty .btn{flex:1;padding:9px 6px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:34px}
+.road{display:flex;flex-direction:column;gap:0}
+.step{display:grid;grid-template-columns:26px 1fr;gap:14px;padding-bottom:20px;position:relative}
+.step:not(:last-child):before{content:"";position:absolute;left:12px;top:22px;bottom:0;width:1px;background:var(--line)}
+.dot{width:25px;height:25px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:10px;color:var(--dim);background:var(--panel)}
+.step.done .dot{background:var(--mint);color:#04120a;border-color:var(--mint);font-weight:700}
+.step.now .dot{border-color:var(--mint);color:var(--mint)}
+.step h4{margin:2px 0 4px;font-size:13px}
+.step p{margin:0;color:var(--dim);font-size:11.5px}
+table{width:100%;border-collapse:collapse;font-size:11.5px}
+td,th{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--dim);font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:400}
+td.mono{font-family:var(--mono);color:var(--dim);word-break:break-all}
+.tokbox{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+.kv{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--line);font-size:11.5px}
+.kv:last-child{border:0}
+.kv span{color:var(--dim)}
+.kv b{font-weight:600}
+.tok{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;margin-bottom:9px}
+.thumb{width:44px;height:44px;image-rendering:pixelated;border-radius:7px;border:1px solid var(--line)}
+.tok .id{font-weight:700}
+.tok .t{font-size:10px;color:var(--dim);letter-spacing:.1em}
+.tok .amt{margin-left:auto;font-size:11px;color:var(--dim)}
+.tok .btn{padding:7px 10px}
+.msg{font-size:11.5px;color:var(--dim);min-height:16px}
+footer{border-top:1px solid var(--line);padding:26px 0 44px;color:var(--dim);font-size:11px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+footer .socials{margin-left:auto}
+@media(max-width:980px){.hero{grid-template-columns:1fr;gap:26px}.heroart img{width:220px;height:220px}.tiers{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}nav{display:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap hd">
+  <a class="brand" href="/"><img src="/meta/img/1.gif" alt="">Authorized Avatars</a>
+  <nav>
+    <a href="#mint">Mint</a>
+    <a href="/collection">Collection</a>
+    <a href="#token">Token</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#mine">My Avatars</a>
+  </nav>
+  <div class="socials">
+    <a href="https://x.com/aasa_avatar" target="_blank" rel="noopener" title="X / Twitter" aria-label="X">
+      <svg viewBox="0 0 24 24"><path d="M18.9 2H22l-7.1 8.1L23.2 22h-6.6l-5.2-6.8L5.5 22H2.4l7.6-8.7L1.2 2h6.8l4.7 6.2L18.9 2Zm-1.2 18h1.7L7.4 3.8H5.6L17.7 20Z"/></svg></a>
+    <a href="https://bankr.bot/launches/0xe4ded569fff9bfd80b131b6ac0d6d0874da5aba3" target="_blank" rel="noopener" title="Buy $AASA on bankr.bot" aria-label="Buy on bankr.bot">
+      <svg viewBox="0 0 24 24"><path d="M3 6h18l-1.6 11.2a2 2 0 0 1-2 1.8H6.6a2 2 0 0 1-2-1.8L3 6Zm5.5 2.5L9 15h2l-.5-6.5h-2Zm4 0L13 15h2l-.5-6.5h-2ZM4.2 3h15.6l.4 2H3.8l.4-2Z"/></svg></a>
+  </div>
+  <button class="btn p" id="connect">Connect</button>
+</div></header>
+
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <div class="kicker">Base Mainnet · 1,000 supply · animated</div>
+      <h1>Avatars that <span>render</span>,<br>redeem once for <span>$AASA</span>.</h1>
+      <p class="lede">Five tiers, rising price, no bonding curve games. Every mint forwards ETH straight to the treasury. Every avatar is a living animated identity card that you can hold, sell, or stake — redeeming for $AASA never burns it.</p>
+      <div class="cta">
+        <a class="btn p" href="#mint">Mint an avatar</a>
+        <a class="btn" href="/collection">Browse collection</a>
+      </div>
+    </div>
+    <div class="heroart"><img id="heroimg" src="/meta/img/1.gif" alt="Authorized Avatar"></div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><span>Minted</span><b id="s-minted">—</b></div>
+    <div class="stat"><span>ETH raised</span><b id="s-raised">—</b></div>
+    <div class="stat"><span>$AASA redeem pool</span><b id="s-pool">—</b></div>
+    <div class="stat"><span>Redemptions</span><b id="s-red">—</b></div>
+  </div>
+</div>
+
+<section id="mint"><div class="wrap">
+  <h2>Tier ladder</h2>
+  <p class="sub">Each tier holds 200 avatars. The next tier unlocks when the current one passes 80% — but earlier tiers stay mintable until sold out.</p>
+  <div class="tiers" id="tiers"></div>
+  <p class="msg" id="mintmsg"></p>
+</div></section>
+
+<section id="mine"><div class="wrap">
+  <h2>My avatars</h2>
+  <p class="sub" id="walletstate">Connect a wallet to see your avatars.</p>
+  <div id="mytokens" style="max-width:640px"></div>
+</div></section>
+
+<section id="token"><div class="wrap">
+  <h2>Token &amp; contracts</h2>
+  <p class="sub">Everything below is live on Base mainnet and readable on-chain.</p>
+  <div class="grid2">
+    <div class="tokbox">
+      <div class="kv"><span>Token</span><b>$AASA · Authorized Avatars</b></div>
+      <div class="kv"><span>Total supply</span><b id="t-supply">—</b></div>
+      <div class="kv"><span>Decimals</span><b>18</b></div>
+      <div class="kv"><span>Redemption reference</span><b>115k–3.866M AASA per NFT</b></div>
+      <div class="kv"><span>Royalty</span><b id="t-royalty">2.5%</b></div>
+      <div class="kv"><span>Mint proceeds go to</span><b><a href="https://basescan.org/address/0x1cEcDFbb8507800e34e07dD4723AbdF8ea07c747" target="_blank" rel="noopener">0x1cEc…c747</a></b></div>
+      <div class="kv"><span>Buy $AASA</span><b><a href="https://bankr.bot/launches/0xe4ded569fff9bfd80b131b6ac0d6d0874da5aba3" target="_blank" rel="noopener">bankr.bot ↗</a></b></div>
+    </div>
+    <div class="tokbox">
+      <table>
+        <tr><th>Contract</th><th>Address</th></tr>
+        <tr><td>NFT</td><td class="mono"><a href="https://basescan.org/address/0x96b1394Bd272C36a2078D1cbb1Fc89F8F68b1Be2" target="_blank" rel="noopener">0x96b1394B…1Be2</a></td></tr>
+        <tr><td>Redeemer</td><td class="mono"><a href="https://basescan.org/address/0x0De77EE57C7e53cc8DA90381faa65Bab710201e8" target="_blank" rel="noopener">0x0De77EE5…01e8</a></td></tr>
+        <tr><td>$AASA</td><td class="mono"><a href="https://basescan.org/token/0xe4deD569fFf9bFD80b131b6aC0D6D0874dA5ABa3" target="_blank" rel="noopener">0xe4deD569…ABa3</a></td></tr>
+        <tr><td>Treasury</td><td class="mono"><a href="https://basescan.org/address/0x1cEcDFbb8507800e34e07dD4723AbdF8ea07c747" target="_blank" rel="noopener">0x1cEcDFbb…c747</a></td></tr>
+      </table>
+      <p class="msg" style="margin:12px 0 0">Redeemed $AASA can never be withdrawn by the team — <code>rescue()</code> excludes the token, so the pool can only leave to avatar holders.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="roadmap"><div class="wrap">
+  <h2>Roadmap</h2>
+  <p class="sub">Shipped items are live on-chain today, not slideware.</p>
+  <div class="grid2">
+    <div class="road">
+      <div class="step done"><div class="dot">✓</div><div><h4>Stage 1 — Mint &amp; redeem core</h4><p>NFT contract, redeemer, instant one-time $AASA redemption, 2.5% royalty. Live.</p></div></div>
+      <div class="step done"><div class="dot">✓</div><div><h4>Stage 2 — Art &amp; metadata</h4><p>1,000 unique animated GIFs, on-chain trait metadata, marketplace-ready.</p></div></div>
+      <div class="step now"><div class="dot">3</div><div><h4>Stage 3 — Tier expansion</h4><p>Tiers unlock at 80% sold. Redeem pool refilled per tier as demand arrives.</p></div></div>
+      <div class="step"><div class="dot">4</div><div><h4>Stage 4 — Staking</h4><p>Stake avatars for $AASA emissions weighted by tier; unredeemed and redeemed both eligible since nothing is burned.</p></div></div>
+      <div class="step"><div class="dot">5</div><div><h4>Stage 5 — Fee sharing</h4><p>Mint and royalty flows routed to stakers, with public reporting per epoch.</p></div></div>
+    </div>
+    <div class="tokbox">
+      <h4 style="margin:0 0 10px;font-size:13px">How redemption works</h4>
+      <table>
+        <tr><th>Tier</th><th>Mint price</th><th>Redeem once</th></tr>
+        <tr><td>1 · Static</td><td>0.0005 ETH</td><td>115,000 AASA</td></tr>
+        <tr><td>2 · Ember</td><td>0.0012 ETH</td><td>276,000 AASA</td></tr>
+        <tr><td>3 · Aurora</td><td>0.0029 ETH</td><td>667,000 AASA</td></tr>
+        <tr><td>4 · Nebula</td><td>0.0070 ETH</td><td>1,611,000 AASA</td></tr>
+        <tr><td>5 · Singularity</td><td>0.0168 ETH</td><td>3,866,000 AASA</td></tr>
+      </table>
+      <p class="msg" style="margin:12px 0 0">Redemption is instant, once per token, and verified against the redeemer's $AASA balance. Selling an unredeemed avatar passes the claim to its buyer.</p>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;width:100%">
+  <span>Authorized Avatars · Base mainnet</span>
+  <span>·</span>
+  <a href="/collection">Collection</a>
+  <a href="https://x.com/aasa_avatar" target="_blank" rel="noopener">X</a>
+  <a href="https://bankr.bot/launches/0xe4ded569fff9bfd80b131b6ac0d6d0874da5aba3" target="_blank" rel="noopener">$AASA</a>
+  <a href="https://bankr.bot/launches/0xe4ded569fff9bfd80b131b6ac0d6d0874da5aba3" target="_blank" rel="noopener">Buy $AASA</a>
+  <div class="socials">
+    <a href="https://x.com/aasa_avatar" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24"><path d="M18.9 2H22l-7.1 8.1L23.2 22h-6.6l-5.2-6.8L5.5 22H2.4l7.6-8.7L1.2 2h6.8l4.7 6.2L18.9 2Zm-1.2 18h1.7L7.4 3.8H5.6L17.7 20Z"/></svg></a>
+    <a href="https://bankr.bot/launches/0xe4ded569fff9bfd80b131b6ac0d6d0874da5aba3" target="_blank" rel="noopener" aria-label="Buy"><svg viewBox="0 0 24 24"><path d="M3 6h18l-1.6 11.2a2 2 0 0 1-2 1.8H6.6a2 2 0 0 1-2-1.8L3 6Zm5.5 2.5L9 15h2l-.5-6.5h-2Zm4 0L13 15h2l-.5-6.5h-2ZM4.2 3h15.6l.4 2H3.8l.4-2Z"/></svg></a>
+  </div>
+</div></footer>
+
+<script>
+const RPC=["https://mainnet.base.org","https://base-rpc.publicnode.com","https://base.drpc.org"];
+const NFT="0x96b1394Bd272C36a2078D1cbb1Fc89F8F68b1Be2",RED="0x0De77EE57C7e53cc8DA90381faa65Bab710201e8",AASA="0xe4deD569fFf9bFD80b131b6aC0D6D0874dA5ABa3",DEPLOY_BLOCK=53226473;
+const SEL={maxSupply:"0x32cb6b0c",totalMinted:"0xa2309ff8",phaseOpen:"0xcddefd2b",phaseMinted:"0x6430ab8c",phasePrice:"0x50faec2e",phaseRedeem:"0x0866c3f2",phaseFinished:"0x0bf542c9",phaseOf:"0x9a243ebf",ownerOf:"0x6352211e",redeemed:"0x7ed0f1c1",claimable:"0xd1d58b25",poolBalance:"0x96365d44",redeemCount:"0x126717cd",royaltyBps:"0xc63adb2b",supply:"0x18160ddd",mint:"0xa0712d68",redeem:"0xdb006a75"};
+const TIER=["Static","Ember","Aurora","Nebula","Singularity"];
+let rpcIdx=0,acct=null,ST={phases:[],pool:0n,redeems:0n,minted:0n};
+const pad=a=>a.toLowerCase().replace(/^0x/,"").padStart(64,"0");
+const hexN=n=>"0x"+(typeof n==="bigint"?n:BigInt(n)).toString(16);
+async function rpc(method,params){
+  for(let i=0;i<RPC.length;i++){
+    try{
+      const r=await fetch(RPC[(rpcIdx+i)%RPC.length],{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method,params})});
+      const j=await r.json(); if(j.error) throw new Error(j.error.message); return j.result;
+    }catch(e){}
+  }
+  throw new Error("rpc unavailable");
+}
+const call=(to,data)=>rpc("eth_call",[{to,data},"latest"]);
+const u=h=>BigInt(h&&h!=="0x"?h:"0x0");
+function fmt(v,d=18){
+  const s=v.toString().padStart(d+1,"0"),i=s.slice(0,-d),f=s.slice(-d).replace(/0+$/,"");
+  return f?i+"."+f.slice(0,3):i;
+}
+async function loadTiers(){
+  const p=[];
+  for(let i=0;i<5;i++){
+    const [price,minted,open,fin,redeem]=await Promise.all([
+      call(NFT,SEL.phasePrice+pad(hexN(i))),
+      call(NFT,SEL.phaseMinted+pad(hexN(i))),
+      call(NFT,SEL.phaseOpen+pad(hexN(i))),
+      call(NFT,SEL.phaseFinished+pad(hexN(i))),
+      call(RED,SEL.phaseRedeem+pad(hexN(i)))
+    ]);
+    p.push({i,price:u(price),minted:u(minted),open:u(open)===1n,finished:u(fin)===1n,redeem:u(redeem)});
+  }
+  ST.phases=p; renderTiers();
+}
+function renderTiers(){
+  const wrap=document.getElementById("tiers");wrap.innerHTML="";
+  const art=[1,201,401,601,801];
+  ST.phases.forEach(p=>{
+    const el=document.createElement("div"),openMint=p.open&&p.minted<200n;
+    el.className="tier "+(p.finished?"done":(openMint?"open":"closed"));
+    const eth=Number(p.price)/1e18,pct=Number(p.minted)/200*100;
+    el.innerHTML=`<img class="tart" loading="lazy" src="/meta/img/${art[p.i]}.gif" alt="Tier ${p.i+1}">
+      <div class="tbody">
+      <div class="tid"><span>Tier ${p.i+1} · ${TIER[p.i]}</span><span class="badge ${p.finished?'full':(openMint?'live':'')}">${p.finished?'SOLD OUT':(openMint?'OPEN':'LOCKED')}</span></div>
+      <div class="price">${eth.toFixed(4)} <small>ETH</small></div>
+      <div class="bar"><i style="width:${pct}%"></i></div>
+      <div class="cap"><span>${Number(p.minted)} / 200</span><span>${pct.toFixed(0)}%</span></div>
+      <div class="rw">Redeem once for <b>${fmt(p.redeem)}</b> AASA</div>
+      <div class="qty"><select data-q="${p.i}"><option>1</option><option>2</option><option>3</option><option>5</option></select>
+      <button class="btn p" data-mint="${p.i}" ${openMint?"":"disabled"}>Mint</button></div></div>`;
+    wrap.appendChild(el);
+  });
+  wrap.querySelectorAll("[data-mint]").forEach(b=>b.onclick=()=>doMint(parseInt(b.dataset.mint,10),b));
+}
+async function loadStats(){
+  const [minted,pool,red,supply,roy]=await Promise.all([
+    call(NFT,SEL.totalMinted),call(RED,SEL.poolBalance),call(RED,SEL.redeemCount),call(AASA,SEL.supply),call(NFT,SEL.royaltyBps)
+  ]);
+  ST.minted=u(minted);
+  let raised=0n; for(const p of ST.phases) raised+=p.price*p.minted;
+  document.getElementById("s-minted").innerHTML=fmt(ST.minted,0)+"<small> / 1000</small>";
+  document.getElementById("s-raised").innerHTML=(Number(raised)/1e18).toFixed(4)+"<small> ETH</small>";
+  document.getElementById("s-pool").innerHTML=fmt(u(pool))+"<small> AASA</small>";
+  document.getElementById("s-red").innerHTML=fmt(u(red),0)+"<small> claimed</small>";
+  document.getElementById("t-supply").textContent=fmt(u(supply))+" AASA";
+  document.getElementById("t-royalty").textContent=(Number(u(roy))/100).toFixed(2)+"%";
+}
+async function connect(){
+  if(!window.ethereum){alert("Install MetaMask or a wallet that supports Base.");return;}
+  try{
+    const accs=await window.ethereum.request({method:"eth_requestAccounts"});
+    acct=accs[0];
+    const chain=await window.ethereum.request({method:"eth_chainId"});
+    if(chain!=="0x2105"){
+      try{await window.ethereum.request({method:"wallet_switchEthereumChain",params:[{chainId:"0x2105"}]});}
+      catch(e){await window.ethereum.request({method:"wallet_addEthereumChain",params:[{chainId:"0x2105",chainName:"Base",nativeCurrency:{name:"Ether",symbol:"ETH",decimals:18},rpcUrls:["https://mainnet.base.org"],blockExplorerUrls:["https://basescan.org"]}]});}
+    }
+    document.getElementById("connect").textContent=acct.slice(0,6)+"…"+acct.slice(-4);
+    document.getElementById("connect").classList.remove("p");
+    loadMine();
+  }catch(e){}
+}
+document.getElementById("connect").onclick=()=>{ if(acct){acct=null;document.getElementById("connect").textContent="Connect";document.getElementById("connect").classList.add("p");document.getElementById("mytokens").innerHTML="";document.getElementById("walletstate").textContent="Connect a wallet to see your avatars.";} else connect(); };
+if(window.ethereum){window.ethereum.on&&window.ethereum.on("accountsChanged",()=>location.reload());}
+async function doMint(phase,btn){
+  if(!acct){await connect();if(!acct)return;}
+  const p=ST.phases[phase],qty=parseInt(document.querySelector(`[data-q="${phase}"]`).value,10);
+  const msg=document.getElementById("mintmsg");
+  try{
+    btn.disabled=true;btn.textContent="…";
+    for(let i=0;i<qty;i++){
+      const data=SEL.mint+pad(hexN(phase));
+      const tx=await window.ethereum.request({method:"eth_sendTransaction",params:[{from:acct,to:NFT,value:hexN(p.price),data}]});
+      msg.textContent=`Sent ${i+1}/${qty} · ${tx.slice(0,10)}…`;
+    }
+    msg.textContent="Mint submitted. Refresh in a few seconds.";
+    setTimeout(async()=>{await loadTiers();await loadStats();loadMine();},4000);
+  }catch(e){msg.textContent="Mint cancelled or failed: "+(e.message||"").slice(0,90);}
+  finally{btn.disabled=false;btn.textContent="Mint";}
+}
+async function loadMine(){
+  if(!acct)return;
+  const box=document.getElementById("mytokens"),ws=document.getElementById("walletstate");
+  ws.textContent="Scanning your avatars…";box.innerHTML="";
+  try{
+    const logs=await rpc("eth_getLogs",[{address:NFT,fromBlock:hexN(DEPLOY_BLOCK),toBlock:"latest",topics:["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",null,"0x"+pad(acct)]}]);
+    const ids=[...new Set((logs||[]).map(l=>u(l.topics[3])))].sort((a,b)=>Number(a-b));
+    if(!ids.length){ws.textContent="No avatars in this wallet yet.";return;}
+    ws.textContent="";
+    for(const id of ids){
+      const owner=await call(NFT,SEL.ownerOf+pad(hexN(id)));
+      if(!owner||u(owner)!==u(acct))continue;
+      const [ph,isRed,amt]=await Promise.all([
+        call(NFT,SEL.phaseOf+pad(hexN(id))),
+        call(RED,SEL.redeemed+pad(hexN(id))),
+        call(RED,SEL.claimable+pad(hexN(id)))
+      ]);
+      const phn=Number(u(ph));
+      const row=document.createElement("div");row.className="tok";
+      row.innerHTML=`<a href="/nft?id=${id}"><img class="thumb" loading="lazy" src="/meta/img/${id}.gif" alt="#${id}"></a>
+        <div><a class="id" href="/nft?id=${id}">#${id}</a><div class="t">TIER ${phn+1} · ${TIER[phn]||""}</div></div>
+        <span class="amt">${isRed===1n?"redeemed":fmt(u(amt))+" AASA"}</span>`;
+      if(isRed!==1n&&u(amt)>0n){
+        const b=document.createElement("button");b.className="btn p";b.textContent="Redeem";
+        b.onclick=async()=>{
+          try{
+            b.disabled=true;b.textContent="…";
+            const tx=await window.ethereum.request({method:"eth_sendTransaction",params:[{from:acct,to:RED,data:SEL.redeem+pad(hexN(id))}]});
+            b.textContent="Sent";setTimeout(()=>loadMine(),6000);
+          }catch(e){b.disabled=false;b.textContent="Redeem";}
+        };
+        row.appendChild(b);
+      }
+      box.appendChild(row);
+    }
+  }catch(e){ws.textContent="Could not read your avatars: "+(e.message||"").slice(0,80);}
+}
+document.getElementById("heroimg").src="/meta/img/"+(1+Math.floor(Math.random()*1000))+".gif";
+(async()=>{ try{await loadTiers();await loadStats();}catch(e){} })();
+setInterval(()=>{loadStats().catch(()=>{})},30000);
+</script>
+</body>
+</html>
