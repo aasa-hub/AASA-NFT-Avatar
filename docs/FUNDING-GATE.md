@@ -33,16 +33,19 @@ Opening is permissionless. The mint that crosses the threshold attempts the unlo
 
 ## Deploying
 
-The gate changes `phaseOpen`, so it cannot be retro-fitted to the live contract: v3 is a new deployment, and the collection has **0 mints**, which makes that free of user impact.
+The gate changes `phaseOpen`, so it cannot be retro-fitted to the live contract: v3 is a new deployment. The collection has **0 mints**, so no holder is affected.
+
+Two-step wiring, because the contracts reference each other and an immutable pair cannot be deployed in any order: the redeemer takes the NFT address in its constructor, and the NFT binds the pool afterwards with a one-shot `setRedeemPool` that only the owner can call and that can never be changed again.
 
 ```
-constructor(
-  treasury_        = 0x1cEcDFbb8507800e34e07dD4723AbdF8ea07c747
-  royaltyReceiver_ = 0x1cEcDFbb8507800e34e07dD4723AbdF8ea07c747
-  baseURI_         = ipfs://<metaCID>/   (after pinning)
-  aasaToken_       = 0xe4deD569fFf9bFD80b131b6aC0D6D0874dA5ABa3
-  redeemPool_      = 0x0De77EE57C7e53cc8DA90381faa65Bab710201e8
-)
+node scripts/deploy-v3.js          # preflight: prints both gas estimates and the exact shortfall
+node scripts/deploy-v3.js --go      # NFT, then redeemer, then the one-time pool binding
 ```
 
-After deploying: re-verify on Basescan, point the redeemer at the new NFT (its `nft` is set at construction, so the redeemer is redeployed too), update `deployment-v3.json`, the site's hardcoded addresses, and this README. Left undone deliberately: nothing here touches the old contracts, which stay readable and unfunded at 0 mints.
+Constructor for the NFT is now `(treasury, royaltyReceiver, baseURI, aasaToken)`; the redeemer keeps `(nft, aasa)`.
+
+**Before deploying, one thing has to be true:** the new redeemer must be funded, because the 23,000,000 $AASA that currently funds tier 1 sits in the *old* redeemer `0x0De77EE5…01e8` and cannot leave it. `redeem()` requires an old-NFT holder and `rescue()` explicitly refuses the AASA token, so once the NFT changes, that balance is unreachable unless someone mints the deprecated collection. Recovering it that way would cost 200 × 0.0005 = 0.1 ETH. Fund the replacement from the treasury wallet instead.
+
+## Test results
+
+`npm install && npx hardhat test` — 14 passing, including the one-shot pool binding.

@@ -15,7 +15,8 @@ describe("AuthorizedAvatars v3 funding gate", () => {
     const M = await ethers.getContractFactory("MockAASA");
     aasa = await M.deploy();
     const N = await ethers.getContractFactory("AuthorizedAvatarsV3");
-    nft = await N.deploy(treasury.address, treasury.address, "https://x/meta/", await aasa.getAddress(), pool.address);
+    nft = await N.deploy(treasury.address, treasury.address, "https://x/meta/", await aasa.getAddress());
+    await nft.setRedeemPool(pool.address);   // redeemer exists first, then the NFT is bound to it
   });
 
   // mint n tier-1 tokens, respecting the 20-per-wallet cap; returns the last tx
@@ -83,6 +84,15 @@ describe("AuthorizedAvatars v3 funding gate", () => {
     expect(await nft.phaseOpen(2)).to.equal(false);
   });
 
+  it("the redemption pool is bound once and only by the owner", async () => {
+    const N = await ethers.getContractFactory("AuthorizedAvatarsV3");
+    const fresh = await N.deploy(treasury.address, treasury.address, "", await aasa.getAddress());
+    expect(await fresh.redeemPool()).to.equal(ethers.ZeroAddress);
+    await expect(fresh.connect(buyers[0]).setRedeemPool(pool.address)).to.be.revertedWithCustomError(fresh, "NotOwner");
+    await fresh.setRedeemPool(pool.address);
+    await expect(fresh.setRedeemPool(buyers[1].address)).to.be.revertedWithCustomError(fresh, "PoolAlreadySet");
+  });
+
   it("gate can be switched off by the owner as an escape hatch", async () => {
     await nft.setFundingGate(false);
     await mintTier1(160);
@@ -110,9 +120,7 @@ describe("AuthorizedAvatars v3 funding gate", () => {
 
   it("constructor rejects a zero funding address", async () => {
     const N = await ethers.getContractFactory("AuthorizedAvatarsV3");
-    await expect(N.deploy(treasury.address, treasury.address, "", ethers.ZeroAddress, pool.address))
-      .to.be.revertedWithCustomError(N, "FundingAddressZero");
-    await expect(N.deploy(treasury.address, treasury.address, "", await aasa.getAddress(), ethers.ZeroAddress))
+    await expect(N.deploy(treasury.address, treasury.address, "", ethers.ZeroAddress))
       .to.be.revertedWithCustomError(N, "FundingAddressZero");
   });
 

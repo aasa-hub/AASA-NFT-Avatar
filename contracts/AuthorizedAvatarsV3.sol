@@ -11,8 +11,9 @@ pragma solidity ^0.8.24;
  *    it the moment the pool is topped up, and a crossing mint attempts it
  *    automatically; if the pool is short the tier stays shut and
  *    PhaseUnlockDeferred(phase, required, available) is emitted.
- *  - aasaToken + redeemPool are immutable, so where the gate reads from cannot
- *    be redirected after deployment.
+ *  - aasaToken is immutable and redeemPool can be set exactly once, because the
+ *    redeemer's constructor needs this NFT's address while the gate needs the
+ *    redeemer's: an immutable pair cannot be deployed in any order.
  *  - sweepStuck() lets the owner rescue ETH from a mint whose fee forward to
  *    the treasury failed; v2.1 stranded that ETH forever.
  *
@@ -57,7 +58,7 @@ contract AuthorizedAvatarsV3 {
     address public owner;
     address public treasury;
     address public immutable aasaToken;
-    address public immutable redeemPool;
+    address public redeemPool;                 // set once, right after the redeemer exists
     bool public fundingGateEnabled = true;
     address public royaltyReceiver;
     string public baseURI;
@@ -97,6 +98,8 @@ contract AuthorizedAvatarsV3 {
     event FundingGateSet(bool enabled);
     event StuckSwept(address indexed to, uint256 amount);
     error FundingAddressZero();
+    error PoolAlreadySet();
+    event RedeemPoolSet(address indexed pool);
 
     error NotOwner();
     error MintClosed();
@@ -115,17 +118,15 @@ contract AuthorizedAvatarsV3 {
         address treasury_,
         address royaltyReceiver_,
         string memory baseURI_,
-        address aasaToken_,
-        address redeemPool_
+        address aasaToken_
     ) {
         if (treasury_ == address(0) || royaltyReceiver_ == address(0)) revert ZeroAddress();
-        if (aasaToken_ == address(0) || redeemPool_ == address(0)) revert FundingAddressZero();
+        if (aasaToken_ == address(0)) revert FundingAddressZero();
         owner = msg.sender;
         treasury = treasury_;
         royaltyReceiver = royaltyReceiver_;
         baseURI = baseURI_;
         aasaToken = aasaToken_;
-        redeemPool = redeemPool_;
         phaseUnlocked[0] = true;
         emit PhaseOpened(0);
     }
@@ -153,7 +154,7 @@ contract AuthorizedAvatarsV3 {
     function fundingShortfallFor(uint256 p) public view returns (uint256) {
         if (p >= PHASE_COUNT) return 0;
         uint256 required = fundingRequiredFor(p);
-        uint256 have = IERC20Balance(aasaToken).balanceOf(redeemPool);
+        uint256 have = redeemPool == address(0) ? 0 : IERC20Balance(aasaToken).balanceOf(redeemPool);
         return have >= required ? 0 : required - have;
     }
 
@@ -172,8 +173,17 @@ contract AuthorizedAvatarsV3 {
         }
     }
 
+    /// @notice one-shot: bind the redemption pool the gate reads from
+    function setRedeemPool(address pool) external onlyOwner {
+        if (redeemPool != address(0)) revert PoolAlreadySet();
+        if (pool == address(0)) revert FundingAddressZero();
+        redeemPool = pool;
+        emit RedeemPoolSet(pool);
+    }
+
     function _isFunded(uint256 p) internal view returns (bool) {
         if (!fundingGateEnabled) return true;
+        if (redeemPool == address(0)) return false;
         return IERC20Balance(aasaToken).balanceOf(redeemPool) >= fundingRequiredFor(p);
     }
 
@@ -185,7 +195,7 @@ contract AuthorizedAvatarsV3 {
         uint256 next = phase + 1;
         if (next >= PHASE_COUNT || phaseUnlocked[next] || phaseMinted[next] != 0) return;
         uint256 required = fundingRequiredFor(next);
-        uint256 have = IERC20Balance(aasaToken).balanceOf(redeemPool);
+        uint256 have = redeemPool == address(0) ? 0 : IERC20Balance(aasaToken).balanceOf(redeemPool);
         if (!fundingGateEnabled || have >= required) {
             phaseUnlocked[next] = true;
             emit PhaseOpened(next);
