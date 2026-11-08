@@ -18,6 +18,12 @@ metadata  QmcH9ZLRzUZF1aTQZDdWupt2WDKheTAfxmEbLJGnzSo4Ax
 
 ## What is blocked
 
+**Both free tiers tested cap at 500 pins.** Pinata rejects the folder upload with "The number of files being added would exceed your account's pin limit". Filebase, reached through its S3 keys, failed at object 494 of 2,000 with "Free accounts are limited to 500 IPFS pins" — after pinning 493 GIFs, which do resolve: `https://ipfs.filebase.io/ipfs/QmaVEsvqEytq1WgprkhNiQ5ephnBxov4giEqRsPJo2m2jY` returns the real 11,839-byte four-frame GIF. A 1,000-token collection cannot fit a 500-object budget at one object per token, so the metadata half never uploaded.
+
+Filebase also cannot produce a directory CID: S3 writes pin one object at a time, so there is no parent node for `baseURI` to point at even with unlimited quota. That is the reason the collection moved to a commit-pinned metadata directory instead, with `baseURI` set to it on 2026-11-08.
+
+## Original analysis (still accurate, kept for the record)
+
 Pinning a 16 MB directory needs an account; Pinata's free tier covers it. No credential exists in this workspace, so the upload has not happened and those CIDs are **not** retrievable from any gateway yet. Anyone can verify that: request `https://ipfs.io/ipfs/QmcH9ZLRzUZF1aTQZDdWupt2WDKheTAfxmEbLJGnzSo4Ax/1` and it will not resolve until the pin exists.
 
 ## The moment a JWT exists

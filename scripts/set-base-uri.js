@@ -15,16 +15,16 @@ const KEY_FILE = "/app/conversations/6ac7cee2e53924ef39e93934/aasa-base/deploy/b
 (async () => {
   const args = process.argv.slice(2);
   const go = args.includes("--go");
-  const uri = args.find(a => a.startsWith("ipfs://"));
+  const uri = args.find(a => /^(ipfs|https?):\/\//.test(a));
   const p = new ethers.JsonRpcProvider("https://mainnet.base.org");
   const n = new ethers.Contract(NFT, ABI, p);
   console.log("current baseURI:", await n.baseURI());
   console.log("contract owner :", await n.owner());
-  if (!uri) { console.log("\nno ipfs:// argument given, nothing to do"); return; }
+  if (!uri) { console.log("\npass the new baseURI as an argument, nothing to do"); return; }
   if (!go) { console.log(`\ndry run: would set baseURI to ${uri}`); return; }
 
   const raw = JSON.parse(fs.readFileSync(KEY_FILE, "utf8"));
-  const key = raw.privateKey || raw.private_key || raw.key;
+  const key = raw.priv || raw.privateKey || raw.private_key || raw.key;
   const w = new ethers.Wallet(key.startsWith("0x") ? key : "0x" + key, p);
   const owner = await n.owner();
   if (w.address.toLowerCase() !== owner.toLowerCase()) throw new Error(`key ${w.address} is not the owner ${owner}`);
@@ -33,6 +33,6 @@ const KEY_FILE = "/app/conversations/6ac7cee2e53924ef39e93934/aasa-base/deploy/b
   console.log("tx:", tx.hash);
   await tx.wait();
   console.log("new baseURI:", await n.baseURI());
-  const next = (await n.nextId()) - 1n;
-  if (next >= 1n) console.log("tokenURI(1):", await n.tokenURI(1));
+  try { console.log("tokenURI(1):", await n.tokenURI(1)); }
+  catch { console.log("tokenURI(1): not minted yet, baseURI + id is what a mint would return"); }
 })();
