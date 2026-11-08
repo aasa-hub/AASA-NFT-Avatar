@@ -1,0 +1,9 @@
+{
+  "generated": "2026-11-08T05:18:03.300723Z",
+  "imageCid": "Qmb4xgW83VeuzTHztS8iHbzq4JyAb984R9CjqH2t4q4iqA",
+  "metaCid": "QmcH9ZLRzUZF1aTQZDdWupt2WDKheTAfxmEbLJGnzSo4Ax",
+  "tokenUriPrefix": "ipfs://QmcH9ZLRzUZF1aTQZDdWupt2WDKheTAfxmEbLJGnzSo4Ax/",
+  "imageUriPrefix": "ipfs://Qmb4xgW83VeuzTHztS8iHbzq4JyAb984R9CjqH2t4q4iqA/",
+  "gateways": "https://ipfs.io/ipfs/QmcH9ZLRzUZF1aTQZDdWupt2WDKheTAfxmEbLJGnzSo4Ax/1",
+  "note": "CIDs computed locally with ipfs-unixfs-importer (CIDv0, rawLeaves off), go-ipfs defaults. The pinning service returns the authoritative CID; use that before setting baseURI."
+}

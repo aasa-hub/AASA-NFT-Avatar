@@ -5,3 +5,8 @@ node_modules/
 __pycache__/
 *.pyc
 .DS_Store
+# solidity build + tooling
+artifacts/
+cache/
+typechain/
+ipfs-build/
